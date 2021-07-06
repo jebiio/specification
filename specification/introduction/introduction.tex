@@ -5,39 +5,33 @@ the specification.
 
 \section{Overview}
 
-UAVCAN is a lightweight protocol designed to provide a highly reliable communication method
-supporting publish-subscribe and remote procedure call semantics
-for aerospace and robotic applications via robust vehicle bus networks.
-It is created to address the challenge of deterministic on-board data exchange between systems and components
-of next-generation intelligent vehicles: manned and unmanned aircraft, spacecraft, robots, and cars.
+UAVCAN은 경량 프로토콜로서 publish-subscribe과 원격 프로시저 호출 방식의 높은 신뢰성을 가지는 통신을 제공하도록 설계되었다. 장치내에 있는 강건한 버스 네트워크를 통해서 항공기와 로보틱스 응용 장치에 적합하다.
+차세대 지능 운송 장치의 온보드 상에 시스템과 컴포넌트 사이의 데이터 교환의 문제점을 해결하기 위해 고안되었다.: 유인/무인 비행장치, 우주선, 로봇, 차량
+
 
 UAVCAN can be approximated as a highly deterministic decentralized object request broker
 with a specialized interface description language and a highly efficient data serialization format
 suitable for use in real-time safety-critical systems with optional modular redundancy.
 
-The name UAVCAN stands for \emph{Uncomplicated Application-level Vehicular Computing And Networking}.
+UAVCAN의 \emph{Uncomplicated Application-level Vehicular Computing And Networking}를 의미한다.
 
-UAVCAN is a standard open to everyone, and it will always remain this way.
-No authorization or approval of any kind is necessary for its implementation, distribution, or use.
+UAVCAN은 모두에게 오픈된 표준이며 향후에도 계속 오픈된 상태를 유지할 것이다.
+구현, 배포, 사용에 있어서 허가나 승인이 필요하지 않다.
 
-The development and maintenance of the UAVCAN specification is governed through the public discussion forum,
-software repositories, and other resources available via the official website at \href{http://uavcan.org}{uavcan.org}.
+UAVCAN 스펙의 개발 및 유지보수는 공개된 토론 포럼, 소프트웨어 저장소, 공식 사이트 \href{http://uavcan.org}{uavcan.org}를 통해서 이뤄진다.
 
-Engineers seeking to leverage UAVCAN should also consult with \emph{The UAVCAN Guide} --
-a separate textbook available via the official website.
+UAVCAN을 활용을 모색하는 엔지니어는 공식 웹사이트에서 별도로 제공하는 \emph{The UAVCAN Guide} 를 참고하도록 한다.
 
 \section{Document conventions}
 
-Non-normative text, examples, recommendations, and elaborations that do not directly participate
-in the definition of the protocol are contained in footnotes\footnote{This is a footnote.}
-or highlighted sections as shown below.
+프로토콜의 정의에 직접 들어가지 않는 비공식 내용, 예제, 추천, 퇴고는 footnotes\footnote{This is a footnote.}에 포함되거나 아래와 같이 강조 섹션에 포함된다.
 
 \begin{remark}
-    Non-normative sections such as examples are enclosed in shaded boxes like this.
+    예제와 같이 비공식 내용은 여기와 같이 어두운 박스에 표현된다.
 \end{remark}
 
-Code listings are formatted as shown below.
-All such code is distributed under the same license as this specification, unless specifically stated otherwise.
+코드는 아래와 같은 형태로 표현된다.
+이런 형태의 모든 코드는 특별한 언급이 없다면 이 스펙과 동일한 라이센스로 배포된다.
 
 \begin{minted}{rust}
     // This is a source code listing.
@@ -46,6 +40,7 @@ All such code is distributed under the same license as this specification, unles
     }
 \end{minted}
 
+하나의 바이트(byte)는 8개 비트(bit)의 그룹이다.
 A byte is a group of eight (8) bits.
 
 Textual patterns are specified using the standard
