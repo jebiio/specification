@@ -63,22 +63,22 @@ For example, \verb|@extent| or \verb|@sealed| directives may be omitted if not r
 \section{Design principles}
 
 \begin{description}
-    \item[Democratic network] --- There will be no master node.
-    All nodes in the network will have the same communication rights; there should be no single point of failure.
+    \item[평등한 네트워크] --- 마스터 노드가 존재하지 않는다.
+    네트워크 내에 있는 모든 노드들은 동일한 통신 권한을 가진다. 단일 장애로 네트워크 전체가 불능상태로 빠지지 않는다.
 
-    \item[Facilitation of functional safety] --- A system designer relying on UAVCAN will have the necessary
+    \item[기능 안정성 촉진] --- A system designer relying on UAVCAN will have the necessary
     guarantees and tools at their disposal to analyze the system and ensure its correct behavior.
 
-    \item[High-level communication abstractions] --- The protocol will support publish/subscribe and remote procedure
+    \item[High-level 통신 추상화] --- The protocol will support publish/subscribe and remote procedure
     call communication semantics with statically defined and statically verified data types (schema).
     The data types used for communication will be defined in a clear, platform-agnostic way
     that can be easily understood by machines, including humans.  % I hope you are ok with this, my dear fellow robots.
 
-    \item[Facilitation of cross-vendor interoperability] --- UAVCAN will be a common foundation that
+    \item[벤더간 상호운용성 촉진] --- UAVCAN will be a common foundation that
     different vendors can build upon to maximize interoperability of their equipment.
     UAVCAN will provide a generic set of standard application-agnostic communication data types.
 
-    \item[Well-defined generic high-level functions] --- UAVCAN will define standard services
+    \item[잘 정의된 일반 high-level 기능] --- UAVCAN will define standard services
     and messages for common high-level functions, such as network discovery, node configuration,
     node software update, node status monitoring, network-wide time synchronization, plug-and-play node support, etc.
 
