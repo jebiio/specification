@@ -73,46 +73,37 @@ DSDL 정의를 기반으로 직렬화 코드를 생성하는 기능을 가진 �
 }.
 다시 말하면 대소문자만 다른 한쌍의 이름은 이름 충돌이 발생할 수 있다.
 
+이름 컴포넌트는 알파벳 ASCII 문자와(\verb|A-Z|, \verb|a-z|, \verb|0-9|) 언더스코어 (``\verb|_|'', ASCII code 95)로 구성되어 있다.
+빈 문자열은 이름 컴포넌트로 유효하지 않다.
+이름 컴포넌트의 첫번째 문자는 숫자가 올 수 없다.
+이름 컴포넌트에는 어떠한 예약 워드 패턴도 패칭되지 않으며 목록은 table~\ref{table:dsdl_reserved_word_patterns}을 참조하자.
 
-A name component consists of alphanumeric ASCII characters (which are: \verb|A-Z|, \verb|a-z|, and \verb|0-9|)
-and underscore (``\verb|_|'', ASCII code 95).
-An empty string is not a valid name component.
-The first character of a name component shall not be a digit.
-A name component shall not match any of the reserved word patterns,
-which are listed in table~\ref{table:dsdl_reserved_word_patterns}.
+전체 데이터 타입 이름의 길이는 255문자를 초과하지 않는다.\footnote{This includes the name component separators, but not the version.}
 
-The length of a full data type name shall not exceed 255
-characters\footnote{This includes the name component separators, but not the version.}.
+모든 데이터 타입 정의는 메이저와 마이너 버전 넘버 쌍을 할당한다.
+데이터 타입 정의를 식별하기 위해서 버전 넘버가 지정된다.
+다음 텍스트에서 majority qualifier가 없는 \emph{version}는 용어는 메이저와 마이너 버전 넘버 쌍을 의미한다.
 
-Every data type definition is assigned a major and minor version number pair.
-In order to uniquely identify a data type definition, its version numbers shall be specified.
-In the following text, the term \emph{version} without a majority qualifier refers to
-a pair of major and minor version numbers.
-
-Valid data type version numbers range from 0 to 255, inclusively.
-A data type version where both major and minor components are zero is not allowed.
+유효 데이터 타입 버전 넘버는 0에서 255의 범위를 가진다.
+메이저와 마이너 컴포넌트 모두 0인 데이터 타입 버전은 허용하지 않는다.
 
 \subsection{File hierarchy}
 
-DSDL data type definitions are contained in UTF-8 encoded text files with a file name extension \verb|.uavcan|.
+DSDL 데이터 타입 정의는 파일 이름 확장자가 \verb|.uavcan|이고 UTF-8로 인코딩된 텍스트 파일이다.
 
-One file defines exactly one version of a data type,
-meaning that each combination of major and minor version numbers shall be unique per data type name.
-There may be an arbitrary number of versions of the same data type defined alongside each other,
-provided that each version is defined at most once.
-Version number sequences can be non-contiguous,
-meaning that it is allowed to skip version numbers or remove existing definitions that are neither oldest nor newest.
+하나의 파일은 정확히 하나의 버전의 데이터 타입을 정의하며 메이저와 마이너 버전의 각 조합은 데이터 타입 이름에 대해서 유일하게 된다.
+서동일한 데이터 타입에 대해서 서로 동시에 임의의 버전 넘버가 가능하며 각 버전은 기껏해야 한 번 정의될 수 있다.
+버전 넘버 순서는 연속되는 수일 필요는 없으며 버전 넘버를 건너 뛰거나 가장 오래되거나 가장 최신인 기존 정의만 아니라면 제거도 가능하다.
 
-A data type definition may have an optional fixed port-ID\footnote{Chapter~\ref{sec:basic}.} value specified.
+데이터 타입 정의는 옵션으로 고정된 port-ID\footnote{Chapter~\ref{sec:basic}.} 지정 값이다.
 
-The name of a data type definition file is constructed from the following entities
-joined via the ASCII dot character ``\verb|.|'' (ASCII code 46), in the specified order:
+데이터 타입 정의 파일의 이름은 엔트티와 ASCII dot 문자 ``\verb|.|'' (ASCII code 46)로 지정한 순서로 구성된다. :
 \begin{itemize}
-    \item Fixed port-ID in decimal notation, unless a fixed port-ID is not provided for this definition.
-    \item Short name of the data type (mandatory, always non-empty).
-    \item Major version number in decimal notation (mandatory).
-    \item Minor version number in decimal notation (mandatory).
-    \item File name extension ``\verb|uavcan|'' (mandatory).
+    \item 10진수의 고정 port-ID, 고정 port-ID가 이 정의에서 제공되는 경우
+    \item 데이터 타입의 short name (필수, 공백 허용 하지 않음).
+    \item 10진수의 메이저 버전 넘버 (필수)
+    \item 10진수의 마이너 버전 넘버 (필수)
+    \item 파일 이름 확장자 ``\verb|uavcan|'' (필수).
 \end{itemize}
 
 \begin{figure}[H]
@@ -132,15 +123,14 @@ joined via the ASCII dot character ``\verb|.|'' (ASCII code 46), in the specifie
     \caption{Data type definition file name structure\label{fig:dsdl_definition_file_name_structure}}
 \end{figure}
 
-DSDL namespaces are represented as directories, where one directory defines exactly one namespace, possibly nested.
-The name of the directory defines the name of its data type name component.
-A directory defining a namespace will always define said namespace in its entirety,
-meaning that the contents of a namespace cannot be spread across different directories sharing the same name.
-One directory cannot define more than one level of
+DSDL 네임스페이스는 디렉토리를 나타낸다. 하나의 디렉토리는 정확히 하나의 네임스페이스를 정의하며 내부에 다른 디렉토리를 가질 수 있다.
+디렉토리의 이름은 데이터 타입 이름 컴포넌트의 이름을 정의한다.
+하나의 네임스페이스를 정의하고 있는 하나의 디렉토리는 전체에서의 사용되는 하나의 네임스페이스를 정의한다. 즉 하나의 네임스페이스의 내용은 동일한 이름을 공유하는 다른 디렉토리와 교차로 사용할 수 없다.
+하나의 디렉토리는 
 nesting\footnote{%
     For example, ``\texttt{foo.bar}'' is not a valid directory name.
     The valid representation would be ``\texttt{bar}'' nested in ``\texttt{foo}''.
-}.
+}의 한단계 레벨 이상을 정의할 수 없다.
 
 \begin{remark}
     \begin{figure}[H]
