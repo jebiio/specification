@@ -2,58 +2,48 @@
 
 \subsection{General principles}
 
-In accordance with the UAVCAN architecture, DSDL allows users to define data types of two kinds:
-message types and service types.
-Message types are used to exchange data over publish-subscribe one-to-many message links identified by subject-ID,
-and service types are used to perform request-response one-to-one exchanges (like RPC) identified by service-ID.
-A service type is composed of exactly two inner data types:
-one of them is the request type (its instances are transferred from client to server),
-and the other is the response type (its instances are transferred from the server back to the client).
+UAVCAN 아키텍처에 따라 DSDL에서 사용자는 2가지 종류의 데이터 타입을 정의할 수 있다:
+메시지 타입과 서비스 타입
+메시지 타입은 publish-subscribe 상에서 데이터 교환에 사용되며 1:다 메시지 링크는 서브젝트-ID로 식별한다. 서비스 타입은 request-response를 수행하는데 사용하며 RPC와 같이 1:1 교환에서 서비스-ID로 식별한다.
+서비스 타입은 정확히 2개 내부 데이터 타입으로 구성된다:
+그 중에 하나는 request 타입(클라이언트에서 서버로 전송)이고,
+나머지 하나는 response 타입(서버에서 클라이언트로 전송)이다.
 
-Following the deterministic nature of UAVCAN, the size of a serialized representation of any
-message or service object is bounded within statically known limits.
-Variable-size entities always have a fixed size limit defined by the data type designer.
+UAVCAN의 deterministic 속성을 따라서 메시지나 서비스 객체의 크기는 정적으로 이미 알고 있는 크기 이내에 한정된다.
+가변길이 엔트티는 항상 데이터 타입 디자이너가 정의한 고정 길이 제한을 가진다.
 
-DSDL definitions are strongly statically typed.
+DSDL정의는 정적 타입이다.
 
-DSDL provides a well-defined means of data type versioning, which enables data type maintainers to introduce changes
-to released data types while ensuring backward compatibility with fielded systems.
+DSDL은 데이터 타입 버전관리를 위해 잘 정의되어 있다. 이를 통해 데이터 타입 유지보수자가 배포한 데이터 타입의 하위 호환을 되도록 변경할 수 있다.
 
-DSDL is designed to support extensive static analysis. Important properties of data type definitions such as
-backward binary compatibility and data field layouts can be checked and validated by automatic software tools
-before the systems utilizing them are fielded.
+DSDL은 확장 가능한 정적 분석을 지원하도록 설계되었다. 하위 바이너리 호환성과 데이터 필드 레이아웃과 같이 데이터 타입 정의의 중요한 속성은 이를 사용하는 시스템이 운영되기 전에 자동 소프트웨어 도구로 검증 및 검사가 가능하다.
 
-DSDL definitions can be used to automatically generate serialization (and deserialization) source code
-for any data type in a target programming language.
-A tool that is capable of generating serialization code based on a DSDL definition is called a \emph{DSDL compiler}.
-More generically, a software tool designed for working with DSDL definitions is called a
-\emph{DSDL processing tool}.
+DSDL정의는 타겟 프로그래밍 언어에서 직렬화 소스코드 데이터 타입으로 자동 생성될 수 있다.
+DSDL 정의를 기반으로 직렬화 코드를 생성하는 기능을 가진 도구를 \emph{DSDL compiler}라고 부른다.
+좀더 일반적으로는 말하자면 DSDL 정의로 동작하도록 설계된 소프트웨어 도구를 \emph{DSDL processing tool}라고 부른다.
 
 \subsection{Data types and namespaces}
 
-Every data type is located inside a \emph{namespace}.
-Namespaces may be included into higher-level namespaces, forming a tree hierarchy.
+모든 데이터 타입은 \emph{namespace} 내부에 위치한다.
+네임스페이스는 더 상위레벨 네임스페이스에 포함될 수 있으며 트리구조를 가진다.
 
-A namespace that is at the root of the tree hierarchy (i.e., not nested within another one)
-is called a \emph{root namespace}.
-A namespace that is located inside another namespace is called a \emph{nested namespace}.
+트리 구조의 최상단에 있는 네임스페이스를 \emph{root namespace}라고 부른다.
+다른 네임스페이스 내부에 위치하고 있는 네임스페이스를 \emph{nested namespace}라고 부른다.
 
-A data type is uniquely identified by its namespaces and its \emph{short name}.
-The short name of a data type is the name of the type itself excluding the containing namespaces.
+데이터 타입은 네임스페이스와 이름\emph{short name}으로 식별된다.
+데이터 타입의 이름은 네임스페이트를 제외한 타입의 이름이다.
 
-A \emph{full name} of a data type consists of its short name and all of its namespace names.
-The short name and the namespace names included in a full name are called \emph{name components}.
-Name components are ordered: the root namespace is always the first component of the name,
-followed by the nested namespaces, if there are any, in the order of their nesting;
-the short name is always the last component of the full name.
-The full name is formed by joining its name components via the ASCII dot character ``\verb|.|'' (ASCII code 46).
+데이터 타입의 \emph{full name}은 이름과 네임스페이스 이름들로 구성된다.전체 이름에 포함된 이름과 네임스페이스는를 \emph{name components}라고 부른다.
+이름 컴포넌트들은 순서를 가진다: 루트 네임스페이스는 항상 맨 앞에 오고 다음으로 nested 네임스페이스가 온다.
+전체 이름에서 이름(short name)은 항상 마지막에 위치한다.
+전체 이름은 ASCII dot 문자 ``\verb|.|'' (ASCII code 46)를 통해서 이름 컴포넌트들을 연결시킨다.
 
-A \emph{full namespace} name is the full name without the short name and its component separator.
+\emph{full namespace} 이름은 이름(short name)과 component 구분자를 제외한 전체 이름이다.
 
-A \emph{sub-root namespace} is a nested namespace that is located immediately under its root namespace.
-Data types that reside directly under their root namespace do not have a sub-root namespace.
+\emph{sub-root namespace}은 netsted 네임스페이스로 루트 네임스페이스 바로 밑에 위치한다.
+루트 네임스페이스 아래에 위치하고 있는 데이터 타입은 하위루트 네임스페이스를 가지지 않는다.
 
-The name structure is illustrated in figure~\ref{fig:dsdl_data_type_name_structure}.
+이름 구조는 figure~\ref{fig:dsdl_data_type_name_structure} 그림으로 표현하였다.
 
 \begin{figure}[H]
     $$
@@ -72,18 +62,17 @@ The name structure is illustrated in figure~\ref{fig:dsdl_data_type_name_structu
     \caption{Data type name structure\label{fig:dsdl_data_type_name_structure}}
 \end{figure}
 
-A set of full namespace names and a set of full data type names shall not intersect\footnote{%
-    For example, a namespace ``\texttt{vendor.example}'' and a data type ``\texttt{vendor.example.1.0}''
-    are mutually exclusive.
-    Note the data type name shown in this example violates the naming conventions
-    which are reviewed in a separate section.
+전체 네임스페이스 이름의 집합과 전체 데이터 타입 이름의 집합은 서로 교차되지 않는다.\footnote{%
+    예제로 네임스페이스 ``\texttt{vendor.example}''와 데이터 타입 ``\texttt{vendor.example.1.0}''는 서로 상호배제되는 형태다.
+    이 예제에서 보여준 데이터 타입 이름은 이름 규칙에 위배된다. 이는 별도 섹션에서 다룰 예정이다.
 }.
 
-Data type names and namespace names are case-sensitive.
-However, names that differ only in letter case are not permitted\footnote{%
-    Because that may cause problems with case-insensitive file systems.
+데이터 타입 이름과 네임스페이스 이름은 대소문자를 구분한다.
+하지만 대소문자가 다른 이름들은 허용하지 않는다.\footnote{%
+    대소문자를 구분하지 않는 파일시스템에서는 문제를 야기할 수 있기 때문이다.
 }.
-In other words, a pair of names which differ only in letter case is considered to constitute a name collision.
+다시 말하면 대소문자만 다른 한쌍의 이름은 이름 충돌이 발생할 수 있다.
+
 
 A name component consists of alphanumeric ASCII characters (which are: \verb|A-Z|, \verb|a-z|, and \verb|0-9|)
 and underscore (``\verb|_|'', ASCII code 95).
