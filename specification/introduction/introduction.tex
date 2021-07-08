@@ -120,43 +120,32 @@ For example, \verb|@extent| or \verb|@sealed| directives may be omitted if not r
 
 \section{Capabilities}
 
-The maximum number of nodes per logical network is dependent on the transport protocol in use,
-but it is guaranteed to be not less than 128.
+논리 네트워크에서 최대 노드의 수는 사용하는 트랜스포트 프로토콜에 따라 다르지만 128보다는 많다는 것은 보장한다.
 
-UAVCAN supports an unlimited number of composite data types,
-which can be defined by the specification (such definitions are called \emph{standard data types})
-or by others for private use or for public release
-(in which case they are said to be \emph{application-specific} or \emph{vendor-specific}; these terms are equivalent).
-There can be up to 256 major versions of a data type, and up to 256 minor versions per major version.
+UAVCAN은 무한대의 컴포지트 데이터 타입을 지원하며 이런 데이터 타입에는 스펙에 정의하거나(\emph{표준 데이터 타입(standard data types)}) 다른 사람이 개별적인 사용이나 공개를 위해서(\emph{application-specific} 혹은 \emph{vendor-specific}) 정의할 수 있다.
+데이터 타입의 256개 까지의 메이저 버전과 각 메이저 버전에는 최대 256개까지의 마이너 버전이 허용된다.
 
-UAVCAN supports 8192 message subject identifiers for publish/subscribe exchanges and
-512 service identifiers for remote procedure call exchanges.
-A small subset of these identifiers is reserved for the core standard and for publicly released vendor-specific types
-(chapter~\ref{sec:application}).
+UAVCAN은 publish/subscribe 통신을 위해서 8192 메시지 서브젝트 식별자를 지원하고 원격 프로시저 호출 교환을 위해서는 512개 서비스 식별자를 지원한다.
+이런 식별자의 일부는 핵심 표준과 벤더가 배포하는 타입을 위해서 예약되어 있다.(chapter~\ref{sec:application})
 
-Depending on the transport protocol, UAVCAN supports at least eight distinct communication priority levels
-(section~\ref{sec:transport_transfer_priority}).
+트랜스포트 프로토콜에 따라서 UAVCAN은 적어도 8개의 구별되는 통신 우선순위 레벨을 지원한다. (section~\ref{sec:transport_transfer_priority})
 
-The list of transport protocols supported by UAVCAN is provided in chapter~\ref{sec:transport}.
-Non-redundant, doubly-redundant and triply-redundant transports are supported.
-Additional transport layers may be added in future revisions of the protocol.
+UAVCAN이 지원하는 트랜스포트 프로토콜의 목록은 chapter~\ref{sec:transport}를 참고하자.
+비다중화, 이중화, 삼중화 트랜스포트를 지원한다.
+추가적인 트랜스포트 계층은 향후 프로토콜 버전에 추가될 예정이다.
 
-Application-level capabilities of the protocol (such as time synchronization, file transfer,
-node software update, diagnostics, schemaless named registers, diagnostics, plug-and-play node insertion, etc.)
-are listed in section~\ref{sec:application_functions}.
+어플리케이션-레벨에서 할 수 있는 일(시간 동기화, 파일 전송, 노드 소프트웨어 업데이트, 진단, 스키마 없는 레지스터, PnP 노드 추가 등등)의 목록은 section~\ref{sec:application_functions}을 참고하자.
 
-The core specification does not define nor explicitly limit any physical layers for a given transport, however;
-properties required by UAVCAN may imply or impose constraints and/or minimum performance requirements on physical
-networks. Because of this, the core standard does not control compatibility below a supported transport layer between
-compliant nodes on a physical network (i.e. there are no, anticipated, compatibility concerns between compliant nodes
-connected to a virtual network where hardware constraints are not enforced nor emulated).
-Additional standards specifying physical-layer requirements, including connectors,
-may be required to utilize this standard in a vehicle system.
+핵심 스펙에는 전송에서 물리적 계층에 대해서 명시적인 제약사항을 정의하지 않았다. 하지만 UAVCAN이 요구하는 속성은 물리적 네트워크에 대한 제약이나 최소 성능요구사항을 내포하고 있다. 이런 이유로 핵심 표준에서는 물리적 네트워크 상에 있는 노드끼리 트랜스포트 계층 아래 부분에서 호환에 대한 제약을 두지 않는다.(예) 하드웨어 제약이 적용되지 않는 가상 네트워크에 연결된 노드들 사이의 호환성을 걱정하지 않아도 된다.)
+커넥터를 포함하여 물리 계층에 대한 추가적인 표준은 운송 시스템 내부 표준을 따라 사용할 수 있다.
 
-The capabilities of the protocol will never be reduced within a major version of the specification but may be expanded.
+프로토콜에서 정의한 기능들은 스펙의 메이저 버전내에서는 절대로 줄어들지 않으며 확장될 수는 있다.
 
 \section{Management policy}
 
+UAVCAN 유지보수자는 스펙과 public regulated data types\footnote{%
+The related technical aspects are covered in chapters~\ref{sec:basic} and~\ref{sec:dsdl}.
+}을 유지 관리하고 발전시키는 일을 담당하고 있다.
 The UAVCAN maintainers are tasked with maintaining and advancing this specification and
 the set of public regulated data types\footnote{%
     The related technical aspects are covered in chapters~\ref{sec:basic} and~\ref{sec:dsdl}.
