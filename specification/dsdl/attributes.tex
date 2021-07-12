@@ -1,33 +1,28 @@
 \section{Attributes}\label{sec:dsdl_attributes}
 
-An \emph{attribute} is a named (excepting padding fields) entity associated with a particular object or type.
+\emph{attribute}는 특정 객체나 타입과 관련된 이름이 붙여진 엔트티이다.(패딩 필드는 제외)
 
 \subsection{Composite type attributes}
 
-A composite type attribute that has a value assigned at the data type definition time is called a
-\emph{constant attribute};
-a composite type attribute that does not have a value assigned at the definition time is called a
-\emph{field attribute}.
+데이터 타입 정의 시간에 할당되는 값을 가지는 컴포지트 타입 속성을 \emph{constant attribute}라고 부른다.
+데이터 타입 정의 시간에 할당되는 않는 컴포지트 타입 속성을 \emph{field attribute}라고 부른다.
 
-The name of a composite type attribute shall be unique within the data type definition that contains it,
-and it shall not match any of the reserved name patterns specified in the table
-\ref{table:dsdl_reserved_word_patterns}.
-This requirement does not apply to padding fields.
+컴포지트 타입 속성의 이름은 이를 포함하는 데이터 타입 정의 내에서는 유일한 이름이 되며,
+table
+\ref{table:dsdl_reserved_word_patterns}에서 정의한 예약 이름 패턴과 매칭되지 않는다.
+이런 요구사항은 패딩 필드에 적용되지 않는다.
 
 \subsubsection{Field attributes}
 
-A field attribute represents a named dynamically assigned value of a statically defined type
-that can be exchanged over the network as a member of its containing object.
-The data type of a field attribute shall be of the serializable type category
-(section~\ref{sec:dsdl_serializable_types}),
-excepting the void type category, which is not allowed.
+필드 속성은 정적으로 정의된 타입의 동적으로 할당된 값을 나타내며 포함하고 있는 객체의 하나의 멤버로 네트워크 상에서 교환이 가능하다.
+필드 속성의 데이터 타입은 직렬화 가능한 타입의 카테고리(section~\ref{sec:dsdl_serializable_types})가 될 수 있으며,
+void 타입 카테고리는 허용하지 않아서 제외된다.
 
-Exception applies to the special kind of field attributes --- \emph{padding fields}.
-The type of a padding field attribute shall be of the void category.
-A padding field attribute may not have a name.
+필드 속성의 특수한 종류--- \emph{padding fields}에 예외가 적용된다.
+패딩 필드 속성의 타입은 void 카테고리의 타입이 된다.
+패딩 필드 속성은 이름을 갖지 않을 것이다.
 
-A pair of field attributes is considered equal if, and only if, both field attributes are of the same type,
-and both share the same name or both are padding field attributes.
+필드 속성 한쌍이 동일하다고 판단되는 경우는 양쪽 모두 동일한 속성이고 모두 동일한 이름 이거나 패딩 필드 속성인 경우이다.
 
 \begin{remark}
     Example:
@@ -39,20 +34,18 @@ and both share the same name or both are padding field attributes.
 
 \subsubsection{Constant attributes}
 
-A constant attribute represents a named statically assigned value of a statically defined type.
-Values of constant attributes are never exchanged over the network,
-since they are assumed to be known to all involved nodes
-by virtue of them sharing the same definition of the data type.
+상수 속성은 정적으로 정의된 타입에 이름을 갖는 정적으로 할당된 값을 표현한다.
+상수 속성의 값은 네트워크 상에서 절대로 교환할 수 없다.
+왜냐하면 데이터 타입의 동일한 정의를 공유하는 방식으로 관련된 모든 노드들이 모두 사전에 알고 있다고 가정한다.
 
-The data type of a constant attribute shall be of the primitive type category
-(section~\ref{sec:dsdl_serializable_types}).
+상수 속성의 데이터 타입은 원시 타입이된다.
+카테고리
+(section~\ref{sec:dsdl_serializable_types})
 
-The value of the constant attribute is determined at the DSDL definition processing time by evaluating its
-\emph{initialization expression}.
-The expression shall yield a compatible type upon its evaluation in order to initialize
-the value of its constant attribute.
-The set of compatible types depends on the type of the initialized constant attribute,
-as specified in table~\ref{table:dsdl_constant_init_pattern}.
+상수 속성의 값은 \emph{initialization expression}를 evaluation으로 DSDL 정의 처리 시점에 결정된다.
+
+구문은 상수 속성의 값을 초기화하기 위해서 evaluation에 따라서 호환되는 타입을 생성한다.
+호환 타입의 집합은 초기화되는 상수 속성의 타입에 의존하며 table~\ref{table:dsdl_constant_init_pattern}에서 지정되어 있다.
 
 \begin{UAVCANSimpleTable}[wide]{Permitted constant attribute value initialization patterns}{|l | X | X[2] | X[2]|}
     \diagbox[font=\footnotesize]{Constant\\type\\category}{Expression\\type} &
@@ -78,8 +71,8 @@ as specified in table~\ref{table:dsdl_constant_init_pattern}.
 
 \end{UAVCANSimpleTable}
 
-Due to the value of a constant attribute being defined at the data type definition time,
-the cast mode of primitive-typed constants has no observable effect.
+데이터 타입 정의 시점에 정의한 상수 속성의 값으로 인해,
+원시 타입으로 된 상수의 캐스트 모드는 관찰 영향을 가지고 있지 않다.
 
 \begin{remark}
     A real literal \verb|1234.5678| is represented internally as
@@ -96,19 +89,14 @@ the cast mode of primitive-typed constants has no observable effect.
 
 \subsection{Local attributes}\label{sec:dsdl_local_attributes}
 
-Local attributes are available at the DSDL definition processing time.
-
-As defined in section~\ref{sec:dsdl_grammar},
-a DSDL definition is an ordered collection of statements;
-a statement may contain DSDL expressions.
-An expression contained in a statement number $E$ may refer to a
-composite type attribute introduced in a statement number $A$ by its name,
-where $A < E$ and both statements belong to the same data type definition\footnote{
+로컬 속성은 DSDL 정의 처리 시간에 유효하다.
+section~\ref{sec:dsdl_grammar}에 정의된 것과 같이,
+DSDL 정의는 순서를 가지는 구문들을 모아둔 것이다.
+구문 넘버 $E$ 에 포함된 expression은 이름으로 구문 넘버 $A$ 에서 말한 컴포지트 타입 속성을 뜻한다. 여기서 $A < E$ 와 양쪽 구문이 동일한 데이터 타입 definition\footnote{
     Per \ref{sec:dsdl_elements_of_data_type_definition},
     in case of services, this applies only to their request and response types.
-}.
-The representation of the referred attribute in the context of the referring DSDL expression
-is specified in table~\ref{table:dsdl_local_attribute_representation}.
+}에 속한다.
+참조한 DSDL expression의 컨텍스트에서 참조한 속성의 표현은 table~\ref{table:dsdl_local_attribute_representation}에 지정되어 있다.
 
 \begin{UAVCANSimpleTable}{Local attribute representation}{|l X X|}\label{table:dsdl_local_attribute_representation}%
     Attribute category & Value type & Value \\
@@ -140,36 +128,28 @@ is specified in table~\ref{table:dsdl_local_attribute_representation}.
 
 \subsection{Intrinsic attributes}
 
-Intrinsic attributes are available in any expression.
-Their values are constructed by the DSDL processing tool depending on the context,
-as specified in this section.
+고유한 속성은 어떤 expression에서 든 유효하다.
+이 값들은 컨텍스트에 따라서 DSDL 처리 툴에 의해서 생성되며,
+이번 섹션에서 다룬다.
 
 \subsubsection{Offset attribute}
 
-The offset attribute is referred to by its identifier ``\verb|_offset_|''.
-Its value is of type $\texttt{set}_\texttt{<rational>}$.
+오프셋 속성은 식별자 ``\verb|_offset_|''를 뜻한다.
+이 값은 type $\texttt{set}_\texttt{<rational>}$의 값이다.
 
-In the following text, the term \emph{referring statement} denotes a statement
-containing an expression which refers to the offset attribute.
-The term \emph{bit length set} is defined in section~\ref{sec:dsdl_bit_length_set}.
+다음 텍스트에서 용어 \emph{referring statement}은 오프셋 속성을 참조하는 expression을 포함하는 구문을 뜻한다.
+용어 \emph{bit length set}은 section~\ref{sec:dsdl_bit_length_set}에 정의되어 있다.
 
-The value of the attribute is a function of the field attribute declarations preceding the referring statement
-and the category of the containing definition.
+속성의 값은 필드 속성 선언의 기능으로 참조 구문 앞에 위치하고 포함하는 정의의 카테고리이다.
 
-If the current definition belongs to the tagged union category,
-the referring statement shall be located after the last field attribute definition.
-A field attribute definition following the referring statement renders the current definition invalid.
-For tagged unions, the value of the offset attribute is defined as the
-cumulative bit length set\footnote{Section \ref{sec:dsdl_composite_alignment_cumulative_bls}.}
-of the union's fields, where each element of the set is incremented by the bit length of the implicit union tag field
-(section \ref{sec:dsdl_serialization_composite}).
+현재 정의가 태그된 union 카테고리에 속한다면,
+참조 구문은 최종 필드 속성 정의 뒤에 위치하게 된다.
+참조 구문에 이후에 있는 필드 속성 정의는 현재 정의가 유효하지 않다고 판단하게 된다.
+태그 unions에 대해서 오프셋 속성의 값은 unions 필드의 누적 bit length set\footnote{Section \ref{sec:dsdl_composite_alignment_cumulative_bls}}로 정의한다. 여기서 해당 집합의 각 엘리멘트는 내포된 union 태그 필드의(section \ref{sec:dsdl_serialization_composite}) bit length만큼 증가시킨다.
 
-If the current data definition does not belong to the tagged union category,
-the referring statement may be located anywhere within the current definition.
-The value of the offset attribute is defined as the
-cumulative bit length set\footnote{Section \ref{sec:dsdl_composite_alignment_cumulative_bls}.}
-of the fields defined in statements preceding the referring statement
-(see section~\ref{sec:dsdl_grammar} on statement ordering).
+현재 데이터 정의는 태그된 union 카테고리에 속하지 않지만,
+참조 구문은 현재 정의 내부에 어떤 곳이든 위치할 수 있다.
+오프셋 속성의 값은 참조 구문(see section~\ref{sec:dsdl_grammar} on statement ordering) 앞에 있는 구문에서 필드의 누적 bit length set\footnote{Section \ref{sec:dsdl_composite_alignment_cumulative_bls}.}로 정의된다.
 
 \begin{remark}
     \begin{minted}{python}

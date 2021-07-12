@@ -1,12 +1,8 @@
 \chapter{Data structure description language}\label{sec:dsdl}
 
-The data structure description language, or \emph{DSDL}, is a simple domain-specific language designed for
-defining composite data types.
-The defined data types are used for exchanging data between UAVCAN nodes via one of the standard UAVCAN
-transport protocols\footnote{The standard transport protocols are documented in chapter~\ref{sec:transport}.
-UAVCAN doesn't prohibit users from defining their own application-specific transports as well,
-although users doing that are likely to encounter compatibility issues and possibly a suboptimal
-performance of the protocol.}.
+데이터 구조 서술 언어 \emph{DSDL}은 컴포지트 데이터 타입을 정의하기 위해 설계된 간단한 도메인 특화 언어이다.
+정의한 데이터 타입은 표준 UAVCAN 전송 프로토콜 중에 하나를 통해서 UAVCAN 노드들 사이에 데이터 교환에 사용된다.\footnote{The standard transport protocols are documented in chapter~\ref{sec:transport}.
+UAVCAN은 사용자가 자신의 어플리케이션에 특화된 트랜스포트를 정의할 수 있지만 이 경우 호환성 이슈나 해당 프로토콜에서 성능 이슈가 발생할 수 있다.}.
 
 \input{dsdl/architecture.tex}
 \input{dsdl/grammar.tex}
