@@ -174,33 +174,28 @@ nesting\footnote{%
 
 \subsection{Elements of data type definition}\label{sec:dsdl_elements_of_data_type_definition}
 
-A data type definition file contains an exhaustive description of a particular version of the said data type in the
-\emph{data structure description language} (DSDL).
+데이터 타입 정의 파일은 \emph{data structure description language} (DSDL)에서 언급한 데이터 타입의 특정 버전에 대한 완벽한 설명을 포함하고 있다.
 
-A data type definition contains an ordered, possibly empty collection of \emph{field attributes} and/or
-unordered, possibly empty collection of \emph{constant attributes}.
+데이터 타입 정의는 \emph{field attributes}는 순서대로 빈 상태도 가능하고 \emph{constant attributes}는 순서에 상관없이 빈 상태를 포함한다.
 
-A data type may describe either a \emph{structure object} or a \emph{tagged union object}.
-The value of a structure object is a function of the values of all of its field attributes.
-A tagged union object is formed from at least two field attributes,
-but it is capable of holding exactly one field attribute value at any given time.
-The value of a tagged union object is a function of which field attribute value
-it is holding at the moment and the value of said field attribute.
+데이터 타입은 \emph{structure object}나 \emph{tagged union object} 중에 하나를 서술할 수 있다.
+구조체 객체의 값은 field attribute들의 모든 값의 function이다.
+태그된 union 객체는 적어도 2개 field attributes로 구성되지만,
+한번에 하나의 field attribute 값만 가질 수 있다.
+태그된 union 객체의 값은 field attribute 값의 function이고 moment와 언급한 field attribute의 값을 유지하고 있다.
 
-A field attribute represents a named dynamically assigned value of a statically defined type
-that can be exchanged over the network as a member of its containing object.
-A padding field attribute is a special kind of field attribute which is used for data alignment purposes;
-such field attributes are not named.
+field attribute는 정적 정의된 타입의 이름을 붙여서 동적으로 할당된 값을 표현한다. 포함하고 있는 객체의 멤버로서 네트워크 상에서 교환이 가능하다.
+padding field attribute는 field attribute의 특별한 경우로 데이터 정렬 목적으로 사용된다.;
+이런 필드에는 이름을 붙이지 않는다.
 
-A constant attribute represents a named statically defined value of a statically defined type.
-Constants are never exchanged over the network, since they are assumed to be known to all involved nodes
-by virtue of them sharing compatible definitions of the data type.
+constant attribute는 정적으로 정의된 타입에 대해서 이름을 붙여서 정적으로 정의된 값을 표현한다.
+constants는 네트워크로 절대 교환이 이뤄지지 않는다. 그 이유는 데이터 타입의 호환 정의를 공유함으로써 모든 관련 노드들이 이미 알고 있다고 가정하기 때문이다.
 
-Constant values are defined via \emph{DSDL expressions},
-which are evaluated at the time of DSDL definition processing.
-There is a special category of types called \emph{expression types},
-instances of which are used only during expression evaluation
-and cannot be exchanged over the network.
+Constant 값들은 \emph{DSDL expressions}를 통해서 정의되며,
+DSDL definition 처리하는 때에 evaluation된다.
+\emph{expression types}라는 특별한 타입의 카테고리가 있는데,
+expression evaluation 동안에만 사용되며 네트워크를 통해 교환할 수 없다.
+
 
 Data type definitions can also contain various auxiliary elements reviewed later,
 such as deprecation markers (notifying its users that the data type is no longer recommended for new designs)
