@@ -56,32 +56,29 @@ table~\ref{table:dsdl_grammar_definition_notation}%
 
 \subsection{Definition}
 
-At the top level, a DSDL definition file is an ordered collection of statements;
-the order is determined by the relative placement of statements inside the DSDL source file:
-statements located closer the beginning of the file precede those that are located closer to the end of the file.
+가장 상위 레벨에서 DSDL 정의 파일은 구문의 순서를 가지는 집합이다.;
+이 순서는 DSDL 소스 파일 내부에 구문의 상대 위치로 결정된다.;
+파일의 시분 부분에 가까이 위치할수록 파일의 끝에 위치한 구문보다 우선 순위를 가진다.
 
-From the top level down to the expression rule, the grammar is a valid regular grammar,
-meaning that it can be parsed using standard regular expressions.
+상위 레벨로부터 표현 원칙으로 내려가서 문법은 유효한 정규 문법으로 표준 정규 표현을 사용하여 파싱할 수 있다는 의미다.
 
-The grammar definition provided here assumes lexerless parsing;
-that is, it applies directly to the unprocessed source text of the definition.
+여기서 제공하는 문법 정의는 어휘 분석 없는 파싱을 의미한다.;
+즉 처리되지 않은 정의 소스 텍스트에 바로 적용된다.
 
-All characters used in the definition belong to the ASCII character set.
+정의에 사용되는 모든 문자는 ASCII 문자 집합에 속한다.
 
 \clearpage\inputminted[fontsize=\scriptsize]{python}{dsdl/grammar.parsimonious}
 
 \subsection{Expressions}
 
-Symbols representing operators belong to the ASCII (basic Latin) character set.
+오퍼레이터를 표현하는 기호는 ASCII(기본 라틴) 문자를 사용한다.
 
-Operators of the same precedence level are evaluated from left to right.
+동일한 우선 순위 오퍼레이터들인 경우 왼쪽에서 오른쪽으로 처리한다.
 
-The attribute reference operator is a special case: it is defined for an instance of any type
-on its left side and an attribute identifier on its right side.
-The concept of ``attribute identifier'' is not otherwise manifested in the type system.
-The attribute reference operator is not explicitly documented for any data type;
-instead, the documentation specifies the set of available attributes for instances of said type,
-if there are any.
+속성 참조 오퍼레이터는 특수한 경우: 왼쪽에 타입의 인스턴스, 오른쪽에 속성 식별를 정의한다.
+``attribute identifier'' 개념은 타입 시스템에서 선언하지 않는다.
+attribute reference operator는 데이터 타입에 대해서 명시적으로 문서화하지는 않는다.;
+대신에 문서에서는 언급한 타입의 인스턴에 대해서 만약 유효한 속성이 있는 경우에 그 집합을 지정한다.
 
 \begin{UAVCANSimpleTable}{Unary operators}{|l l X|}
     Symbol                             & Precedence & Description \\
@@ -123,28 +120,23 @@ if there are any.
 
 \subsection{Literals}
 
-Upon its evaluation, a literal yields an object of a particular type depending on the syntax of the literal,
-as specified in this section.
+evaluation에 따라서 리터널의 문법에 따라서 리터널은 특정 타입의 객체를 생성하게 되며 이번 섹션에서 다룬다.
 
 \subsubsection{Boolean literals}
 
-A boolean literal is denoted by the keyword ``\verb|true|'' or ``\verb|false|''
-represented by an instance of primitive type ``\verb|bool|'' (section~\ref{sec:dsdl_primitive_types})
-with an appropriate value.
+boolean literal은 ``\verb|true|'' 혹은 ``\verb|false|'' 키워드로 나타내고 primitive 타입의 ``\verb|bool|'' (section~\ref{sec:dsdl_primitive_types}) 인스턴스로 표현한다.
 
 \subsubsection{Numeric literals}
 
-Integer and real literals are represented as instances of type ``\verb|rational|'' (section~\ref{sec:dsdl_rational}).
+Integer와 real literal들은 ``\verb|rational|'' (section~\ref{sec:dsdl_rational}) 타입의 인스턴스로 표현한다.
 
-The digit separator character ``\verb|_|'' (underscore) does not affect the interpretation of numeric literals.
+숫자 구분 문자 ``\verb|_|'' (밑줄) 은 numeric literals를 해석에 영향을 주지 않는다.
 
-The significand of a real literal is formed by the integer part, the optional decimal point,
-and the optional fraction part;
-either the integer part or the fraction part (not both) can be omitted.
-The exponent is optionally specified after the letter ``\verb|e|'' or ``\verb|E|'';
-it indicates the power of 10 by which the significand is to be scaled.
-Either the decimal point or the letter ``\verb|e|''/``\verb|E|'' with the following exponent
-(not both) can be omitted from a real literal.
+real literal의 significand는 정수 부분, decimal point와 fraction 부분으로 구성된다.;
+정수 부분 혹은 fraction 부분은 생략이 가능하다.(둘다 생략은 불가)
+``\verb|e|'' 혹은 ``\verb|E|'' 문자 뒤에 exponent는 옵션으로 지정할 수 있다.;
+10의 거듭제곱을 표시한다.
+decimal point 혹은 letter ``\verb|e|''/``\verb|E|'' 중에 하나는 real literal 에서 생략할 수 있다.
 
 \begin{remark}
     An integer literal \verb|0x123| is represented internally as $\frac{291}{1}$.
@@ -155,12 +147,10 @@ Either the decimal point or the letter ``\verb|e|''/``\verb|E|'' with the follow
 
 \subsubsection{String literals}
 
-String literals are represented as instances of type ``\verb|string|'' (section~\ref{sec:dsdl_string}).
+문자 literal은 ``\verb|string|'' (section~\ref{sec:dsdl_string}) 타입의 인스턴스로 표현된다.
 
-A string literal is allowed to contain an arbitrary sequence of Unicode characters,
-excepting escape sequences defined in table~\ref{table:dsdl_string_literal_escape}
-which shall follow one of the specified therein forms.
-An escape sequence begins with the ASCII backslash character ``\verb|\|''.
+문자 literal은 유니코드 문자들의 임의의 순서로 나열되며 table~\ref{table:dsdl_string_literal_escape} 에서 정의한 내부 형태 중에 하나를 따르는 정의한 escape 순서는 제외된다.
+escape 순서는 ASCII 백슬래쉬 문자 ``\verb|\|'' 로 시작한다.
 
 \begin{UAVCANSimpleTable}{String literal escape sequences}{|l X|}
     Sequence & Interpretation
@@ -194,14 +184,11 @@ An escape sequence begins with the ASCII backslash character ``\verb|\|''.
 
 \subsubsection{Set literals}
 
-Set literals are represented as instances of type ``\verb|set|'' (section~\ref{sec:dsdl_set})
-parameterized by the type of the contained elements which is determined automatically.
+Set literals는 ``\verb|set|'' (section~\ref{sec:dsdl_set}) 타입의 인스턴스로 표현하고 자동으로 결정되는 엘리먼트의 타입으로 파라미터화 된다.
 
-A set literal declaration shall specify at least one element,
-which is used to determine the element type of the set.
+set literal 선언은 적어도 하나의 엘리먼트를 지정하고 이는 해당 set의 엘리먼트 타입을 결정하는데 사용된다.
 
-The elements of a set literal are defined as DSDL expressions which are evaluated before a set is constructed
-from the corresponding literal.
+set literal의 엘리먼트들은 DSDL 표현으로 정의되고 관련 literal로부터 set이 구성되기 전에 evalution된다.
 
 \begin{remark}
     \begin{minted}{python}

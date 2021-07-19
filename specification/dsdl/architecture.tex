@@ -196,47 +196,36 @@ DSDL definition 처리하는 때에 evaluation된다.
 \emph{expression types}라는 특별한 타입의 카테고리가 있는데,
 expression evaluation 동안에만 사용되며 네트워크를 통해 교환할 수 없다.
 
+데이터 타입 정의는 여러 추가 엘리먼트를 포함할 수도 있으며 이는 나중에 다루기로 한다.
+deprecation 마커(해당 데이터 타입이 새로운 설계에 더 이상 사용을 추천하지 않음) 혹은 assertion이(DSDL 처리 툴에서 데이터 타입 설계자가 정적으로 유효성을 검증하기 위해서 사용된 특별한 구문) 여기에 속한다.
 
-Data type definitions can also contain various auxiliary elements reviewed later,
-such as deprecation markers (notifying its users that the data type is no longer recommended for new designs)
-or assertions (special statements introduced by data type designers
-which are statically validated by DSDL processing tools).
-
-Service type definitions are a special case:
-they cannot be instantiated or serialized, they do not contain attributes,
-and they are composed of exactly two inner data type definitions\footnote{
+서비스 타입 정의의 특별한 경우:
+인스턴스나 시리얼화 될 수 없으며 속성을 포함하지 않으며,
+정확히 2개 내부 데이터 타입\footnote{
     A service type can be thought of as a specialized namespace that contains two types and
     has some of the properties of a type, such as name and version.
-}.
-These inner types are the service request type and the service response type,
-separated by the \emph{service response marker}.
-They are otherwise ordinary data types except that they are unutterable\footnote{%
-    Cannot be referred to. Another commonly used term is ``Voldemort type''.
-}
-and they derive some of their properties\footnote{Like version numbers or deprecation status.}
-from their \emph{parent service type}.
+} 정의로 구성되어 있다.
+내부 타입은 서비스 요청 타입과 서비스 응답 타입으로 \emph{service response marker}로 구분된다.
+unutterable\footnote{%
+Cannot be referred to. Another commonly used term is ``Voldemort type''.
+}하고 \emph{parent service type}로부터 속성의\footnote{Like version numbers or deprecation status.} 일부를 얻는다는 점을 제외하고는 일반 데이터 타입과 동일하다.
 
 \subsection{Serialization}
 
-Every object that can be exchanged between UAVCAN nodes has a well-defined \emph{serialized representation}.
-The value and meaning of an object can be unambiguously recovered from its serialized representation,
-provided that the type of the object is known.
-Such recovery process is called \emph{deserialization}.
+UAVCAN 노드들 사이에서 교환이 이뤄지는 모든 객체는 잘 정의된 \emph{serialized representation}을 가지고 있다.
+객체의 값과 의미는 serialized representation으로부터 모호함 없이 복구될 수 있고 객체의 타입을 알 수 있도록 제공된다.
+이런 복구 처리를 \emph{deserialization}라고 부른다.
 
 \label{sec:dsdl_bit_length_set}
-A serialized representation is a sequence of binary digits (bits);
-the number of bits in a serialized representation is called its \emph{bit length}.
-A \emph{bit length set} of a data type refers to the set of bit length values of all possible
-serialized representations of objects that are instances of the data type.
+A serialized representation는 바이너리의 연속(bits)으로 되어 있다.;
+직렬화 표현 내부 비트의 개수를 \emph{bit length}라고 부른다.
+데이터 타입의 \emph{bit length set}란 데이터 타입의 인스턴스들인 객체들의 모든 가능한 직렬화 표현의 bit 길이 값의 집합을 말한다.
 
-A data type whose bit length set contains more than one element is said to be \emph{variable length}.
-The opposite case is referred to as \emph{fixed length}.
+어떤 데이터 타입의 bit 길이 집합이 1개 이상의 엘리먼트를 포함하면 이를 \emph{variable length}라고 말한다.
+반대 경우를 \emph{fixed length}라고 한다.
 
-The data type of a serialized message or service object exchanged over the network
-is recovered from its subject-ID or service-ID, respectively,
-which is attached to the serialized object, along with other metadata, in a manner dictated by the applicable
-transport layer specification (chapter~\ref{sec:transport}).
-For more information on port identifiers and data type mapping refer to section~\ref{sec:basic_subjects_and_services}.
+직렬화 메시지의 데이터 타입 혹은 네트워크 상에서 교환되는 서비스 객체는 각각 subject-ID 혹은 service-ID로부터 복구된다.
+이는 다른 메타데이터와 함께 직렬화 객체에 붙여서 transport 계층 스펙 (chapter~\ref{sec:transport})에서 정한 방식을 따른다.
+포트 식별 및 데이터 타입 매핑에 관한 추가 정보는 section~\ref{sec:basic_subjects_and_services}를 참고하자.
 
-The bit length set is not defined on service types (only on their request and response types)
-because they cannot be instantiated.
+bit 길이 집합은 서비스 타입에서는(request와 response 타입) 정의되지 않는데 이유는 서비스 타입은 인스턴스화 되지 않기 때문이다.
