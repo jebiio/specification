@@ -1,19 +1,17 @@
 \chapter{List of standard data types}\label{sec:sdt}
 
-This chapter contains the full list of standard data types defined by the UAVCAN specification.
-The source text of the DSDL data type definitions provided here is also available via the
-official project website at \href{http://uavcan.org}{uavcan.org}.
+이 챕터는 UAVCAN 스펙에서 정의한 표준 데이터 타입의 전체 목록을 포함한다.
+여기서 제공하는 DSDL 데이터 타입 정의의 소스 텍스트는 공식 프로젝트 웹사이트인 \href{http://uavcan.org}{uavcan.org}를 통해 확인할 수 있다.
 
-Regulated non-standard definitions\footnote{%
+비표준 정의\footnote{%
     I.e., public definitions contributed by vendors and other users
     of the specification, as explained in section~\ref{sec:basic_data_type_regulation}.
-} are not included in this list.
+}는 이 목록에 포함되지 않는다.
 
-In the table, \emph{BLS} stands for bit length set.
-The extent is not shown for sealed entities -- that would be redundant because sealing implies
-that the extent equals the maximum bit length set.
-For service types, the parameters pertaining to the request and response are shown separately.
+테이블에서 \emph{BLS}는 bit 길이 집합을 의미한다.
+실드된 엔트티에 대해서는 크기가 보여지지 않는다. -- 실링이 의미하는 것은 크기와 최대 bit 길이 집합이 동일하기 때문에 중복이 될 수 있다.
+서비스 타입에 대해서 request와 response에 속하는 파라미터는 따로 보여진다.
 
-The index table~\ref{table:dsdl:uavcan} is provided before the definitions for ease of navigation.
+인덱스 테이블~\ref{table:dsdl:uavcan}은 네비게이션이 쉽도록 정의 전에 제공된다.
 
 \clearpage\DSDL{uavcan.*}
