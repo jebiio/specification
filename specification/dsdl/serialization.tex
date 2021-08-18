@@ -89,6 +89,12 @@ The presence of unused data should not be considered an error.
 
 \subsubsection{Implicit zero extension of missing data}\label{sec:dsdl_serialization_implicit_zero_extension}
 
+역직렬화 루틴의 목적을 위해
+데이터 타입의 인스턴스의 직렬화된 표현은 (0).\footnote{%
+    This can be implemented by checking for out-of-bounds access during deserialization and returning zeros
+    if an out-of-bounds access is detected. This is where the name ``implicit zero extension rule'' is derived
+    from.
+}으로 된 무한 연속 비트로 암묵적으로 끝이 난다.
 For the purposes of deserialization routines,
 the serialized representation of any instance of a data type shall \emph{implicitly} end with an
 infinite sequence of bits with a value of zero (0).\footnote{%
